@@ -17,10 +17,28 @@ enum OS_AppStyle
     OS_AppStyleDefault = (OS_AppStyleMaximize | OS_AppStyleViewportResize| OS_AppStyleMinimize | OS_AppStyleVisible),
 };
 
+typedef enum OS_EventType OS_EventType;
+enum OS_EventType
+{
+    OS_EventNothing,
+    OS_EventKeyPressed = 1,
+    OS_EventKeyReleased = 2,
+    OS_EventLMousePressed = 3,
+    OS_EventRMousePressed = 4
+        
+};
+
+typedef struct OS_Event OS_Event;
+struct OS_Event
+{
+    OS_EventType type;
+};
+
 typedef struct OS_App OS_App;
 struct OS_App
 {
     const u8* name;
+    OS_Event event;
     V2I size;
     V2I pos;
     OS_AppStyle style;
@@ -49,6 +67,8 @@ struct OS_Win32Handle
 #endif
 
 
+
+
 torn_function OS_App* OS_ConstructApp(const u8* name, V2F size, V2F pos, OS_AppStyle style);
 
 torn_function void OS_PollEvents(OS_App* app);
@@ -74,5 +94,9 @@ torn_function r32 OS_GetTime(OS_App* app);
 torn_function u8* OS_ReadFile(const u8* path);
 torn_function OS_App* OS_GetActiveApp(void);
 
+
+/*
+* Events:
+*/
 
 #endif

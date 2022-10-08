@@ -129,6 +129,11 @@ torn_function void GFX_GLSLShaderMatrix2x4fv(GFX_Shader* shader, const u8* locat
 torn_function void GFX_GLSLShaderMatrix4x2fv(GFX_Shader* shader, const u8* location, u32 count,b32 transpose,const r32 *value);
 torn_function void GFX_GLSLShaderMatrix3x4fv(GFX_Shader* shader, const u8* location, u32 count,b32 transpose,const r32 *value);
 torn_function void GFX_GLSLShaderMatrix4x3fv(GFX_Shader* shader, const u8* location, u32 count,b32 transpose,const r32 *value);
+
+torn_function void GFX_ShaderLoadMeta(GFX_Shader* shader, GFX_Renderer* renderer);
+
+torn_function void GFX_ConfigureShader(GFX_Shader* shader, GFX_Renderer* renderer);
+
 #endif
 
 #ifdef BACKEND_D3D11
@@ -220,8 +225,10 @@ torn_function GFX_Renderer* GFX_CreateRenderer(OS_App* app);
 torn_function void GFX_Clear(GFX_Renderer* renderer);
 torn_function void GFX_Present(GFX_Renderer* renderer);
 torn_function void GFX_Resize(V2I pos, V2I size);
-torn_function void GFX_SetClearColor(V4F color);\
+torn_function void GFX_SetClearColor(V4F color);
 torn_function void GFX_LoadMVP(GFX_Shader* shader, GFX_Renderer* renderer);
+
+
 
 //~ IM-Based Rendering
 //////////////////////////////////////////////////////

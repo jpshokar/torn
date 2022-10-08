@@ -1,3 +1,4 @@
+#error "(D3D11) This pipeline is incomplete, awaiting a major revamp or plagued by a bug, therefore you are unable to access it."
 #include "../gfx.h"
 #include <os/os.h>
 #include <base/base.h>
@@ -555,13 +556,13 @@ GFX_CreateRenderer(OS_App* app)
         "\t float4x4 view;\n"
         "};\n"
         
-        "vertex_output v_main(float4 position : POSITION, float4 color : COLOR, float2 uv : TEXCOORD) { \n"
+        "vertex_output v_main(float4 position : POSITION, float4 color : COLOR, float2 uv : TEXCOORD, float4 normals : NORMALS) { \n"
         "\tvertex_output output;\n"
         "\tfloat4 mvp_position = mul(model, mul(view, mul(orthographic, position)));\n"
-        "\toutput.position = position;\n"
+        "\toutput.position = mvp_position;\n"
         "\toutput.color    = color;\n"
         "\toutput.uv = uv;\n"
-        
+        "\toutput.normals = normals;\n"
         "\treturn output;\n"
         "}\n\0";
     
@@ -569,7 +570,7 @@ GFX_CreateRenderer(OS_App* app)
         "sampler tsample : register(s0);\n"
         "Texture2D<float4> ttexture : register(t0);\n"
         
-        "float4 p_main(float4 position : SV_POSITION, float4 color : COLOR, float2 uv : TEXCOORD) : SV_TARGET { \n"
+        "float4 p_main(float4 position : SV_POSITION, float4 color : COLOR, float2 uv : TEXCOORD, float4 normals : NORMALS) : SV_TARGET { \n"
         "float4 tex = ttexture.Sample(tsample, uv);\n"
         "return color;\n"
         "}\n\0";
@@ -952,12 +953,12 @@ GFX_EndDraw(GFX_Primitive primitive)
         case GFX_Triangles: 
         {
             ID3D11DeviceContext_IASetPrimitiveTopology(rhandle->device_context,
-                                                       D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+                                                       D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
         } break;
         case GFX_TriangleStrip: 
         {
             ID3D11DeviceContext_IASetPrimitiveTopology(rhandle->device_context,
-                                                       D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+                                                       D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
         } break;
         default: 
         {

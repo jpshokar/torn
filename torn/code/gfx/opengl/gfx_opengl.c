@@ -63,7 +63,6 @@ GFX_PopElementBuffer(GFX_ElementBuffer buffer)
 }
 
 //~ shaders
-
 torn_function GFX_Shader
 GFX_CreateShader(u8* vertex_shader,
                  u8* fragment_shader)
@@ -115,6 +114,19 @@ GFX_CreateShader(u8* vertex_shader,
         glGetProgramInfoLog(shader.program, p_error_size, 0, shader.program_error);
     }
     
+    
+    if (shader.vertex_error)
+    {
+        TORN_Error(shader.vertex_error, "Vertex Shader: Compilation Error");
+    }
+    if (shader.fragment_error)
+    {
+        TORN_Error(shader.fragment_error, "Fragment Shader: Compilation Error ");
+    }
+    if (shader.program_error)
+    {
+        TORN_Error(shader.program_error, "Program: Linking Error ");
+    }
     
     glDeleteShader(vs);
     glDeleteShader(ps);
@@ -173,6 +185,7 @@ GFX_GLSLShader4f(GFX_Shader* shader, const u8* location, r32 v0, r32 v1, r32 v2,
 {
     glUniform4f(GFX_GetShaderLocation(shader,location), v0, v1, v2, v3);
 }
+
 torn_function void
 GFX_GLSLShader1i(GFX_Shader* shader, const u8* location, i32 v0)
 {
@@ -346,7 +359,23 @@ GFX_GLSLShaderMatrix4x3fv(GFX_Shader* shader, const u8* location,u32 count,b32 t
 {
     glUniformMatrix4x3fv(GFX_GetShaderLocation(shader,location), count, transpose, value);
 }
+torn_function void 
+GFX_ShaderLoadMeta(GFX_Shader* shader, GFX_Renderer* renderer)
+{
+    GFX_SetTextureUnit(0);
+    GFX_PushTexture(&renderer->default_texture);
+    GFX_GLSLShader1i(shader, "t_texture2d", 0);
+}
 
+torn_function void
+GFX_ConfigureShader(GFX_Shader* shader, GFX_Renderer* renderer)
+{
+    
+    GFX_LoadMVP(shader, renderer);
+    GFX_PushShader(*shader);
+    GFX_ShaderLoadMeta(shader, renderer);
+    
+}
 //~ vertex array
 
 torn_function GFX_VertexArray
@@ -418,6 +447,8 @@ GFX_CreateRenderer(OS_App* app)
     glViewport(0,0, renderer->window_size->w, renderer->window_size->h);
     
     //~ shader
+    
+    
     u8* vertex_shader =
         "#version 330\n"
         "layout (location = 0) in vec3 i_pos;\n"
@@ -448,24 +479,6 @@ GFX_CreateRenderer(OS_App* app)
         "\tf_color =  texture(t_texture2d, v_uv) * v_color;\n"
         "}\n\0";
     
-    renderer->default_shader = GFX_CreateShader(vertex_shader, fragment_shader);
-    
-    GFX_LoadMVP(&renderer->default_shader, renderer);
-    
-    if (renderer->default_shader.vertex_error)
-    {
-        TORN_Error(renderer->default_shader.vertex_error, "Vertex Shader: Compilation Error (internal-default-shader)");
-    }
-    if (renderer->default_shader.fragment_error)
-    {
-        TORN_Error(renderer->default_shader.fragment_error, "Fragment Shader: Compilation Error (internal-default-shader)");
-    }
-    if (renderer->default_shader.program_error)
-    {
-        TORN_Error(renderer->default_shader.program_error, "Program: Linking Error (internal-default-shader)");
-    }
-    GFX_PushShader(renderer->default_shader);
-    
     //~ vertex array
     renderer->vertex_array = GFX_CreateVertexArray();
     GFX_PushVertexArray(&renderer->vertex_array);
@@ -474,8 +487,12 @@ GFX_CreateRenderer(OS_App* app)
     renderer->vertex_buffer = GFX_CreateVertexBuffer(MAX_BATCHABLE_SIZE);
     GFX_PushVertexBuffer(&renderer->vertex_buffer);
     
+    // shader
+    renderer->default_shader = GFX_CreateShader(vertex_shader, fragment_shader);
     
+    GFX_LoadMVP(&renderer->default_shader, renderer);
     
+    GFX_PushShader(renderer->default_shader);
     
     //~ format
     GFX_SetVertexArrayFormat(&renderer->default_shader, &renderer->vertex_array, 
@@ -483,6 +500,8 @@ GFX_CreateRenderer(OS_App* app)
                              GFX_VertexArray_Color    |
                              GFX_VertexArray_Uv       |
                              GFX_VertexArray_Normals  );
+    
+    
     
     GFX_PushRenderer(renderer);
     
@@ -492,11 +511,9 @@ GFX_CreateRenderer(OS_App* app)
     renderer->default_texture = GFX_LoadDataTexture2D(data, v2i(1,1), GFX_Format_RGB);
     
     // Some drivers require you to set a unit for a sampler.
-    GFX_SetTextureUnit(0);
-    GFX_PushTexture(&renderer->default_texture);
-    GFX_GLSLShader1i(&renderer->default_shader, "t_texture2d", 0);
     
     
+    GFX_ShaderLoadMeta(&renderer->default_shader, renderer);
     TORN_Log("GFX: OpenGL: Enabling blending!\n");
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
@@ -530,15 +547,15 @@ GFX_LoadMVP(GFX_Shader* shader, GFX_Renderer* renderer)
     hmm_mat4 model = HMM_Mat4d(1);
     hmm_mat4 view = HMM_Mat4d(1);
     TORN_Log("GFX: GLSL: Loading projection!\n");
-    GFX_GLSLShaderMatrix4fv(&renderer->default_shader, "orthographic", 1, 0,
+    GFX_GLSLShaderMatrix4fv(shader, "orthographic", 1, 0,
                             &orthographic_view.Elements[0][0]);
-    GFX_GLSLShaderMatrix4fv(&renderer->default_shader, "projection", 1, 0,
+    GFX_GLSLShaderMatrix4fv(shader, "projection", 1, 0,
                             &projection_view.Elements[0][0]);
     TORN_Log("GFX: GLSL: Loading model!\n");
-    GFX_GLSLShaderMatrix4fv(&renderer->default_shader, "model", 1, 0,
+    GFX_GLSLShaderMatrix4fv(shader, "model", 1, 0,
                             &model.Elements[0][0]);
     TORN_Log("GFX: GLSL: Loading view!\n");
-    GFX_GLSLShaderMatrix4fv(&renderer->default_shader, "view", 1, 0,
+    GFX_GLSLShaderMatrix4fv(shader, "view", 1, 0,
                             &view.Elements[0][0]);
     
 }

@@ -194,6 +194,7 @@ torn_function GFX_Text
 GFX_CreateText(u8* text,  V2F pos, GFX_Font font)
 {
     GFX_Text gfx_text;
+    TORN_Log("GFX2D: Text: Creating text with the message: %s\n", text );
     gfx_text.text = text;
     gfx_text.font = font;
     gfx_text.pos  = pos;

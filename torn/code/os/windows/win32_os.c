@@ -38,6 +38,19 @@ W32_WindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
     switch (message)
     {
         
+        case (WM_LBUTTONDOWN):
+        {
+            if (g_application != 0)
+                g_application->event.type = OS_EventLMousePressed;
+        } break;
+        
+        
+        case (WM_RBUTTONDOWN):
+        {
+            if (g_application != 0)
+                g_application->event.type = OS_EventRMousePressed;
+        } break;
+        
         case (WM_KEYDOWN):
         {
             
@@ -81,6 +94,8 @@ W32_WindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
         break;
         default:
         {
+            if (g_application != 0)
+                g_application->event.type = OS_EventNothing;
             ret = DefWindowProc(window, message, wparam, lparam);
         } break;
     };

@@ -1,7 +1,7 @@
 @echo off
 
 
-set backend="d3d11"
+set backend="opengl"
 echo [+] active backend is %backend%
 
 
