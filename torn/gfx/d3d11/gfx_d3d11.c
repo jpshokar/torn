@@ -1,4 +1,7 @@
-#error "(D3D11) This pipeline is incomplete, awaiting a major revamp or plagued by a bug, therefore you are unable to access it."
+
+// Perhaps redo this? I don't know.
+
+// #error "(D3D11) This pipeline is incomplete, awaiting a major revamp or plagued by a bug, therefore you are unable to access it."
 #include "../gfx.h"
 #include <os/os.h>
 #include <base/base.h>
@@ -527,7 +530,7 @@ GFX_CreateRenderer(OS_App* app)
     swapchain_desc.BufferCount              = 2;
     
     GFXD3D11_Validate(D3D11CreateDeviceAndSwapChain(0,
-                                                    D3D_DRIVER_TYPE_HARDWARE,
+                                                    D3D_DRIVER_TYPE_WARP,
                                                     0,
                                                     0,
                                                     0,

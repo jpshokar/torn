@@ -95,6 +95,7 @@ torn_function void OS_SetWindowBorderlessFullscreen(OS_App* app);
 torn_function r32 OS_GetTime(OS_App* app);
 torn_function u8* OS_ReadFile(const u8* path);
 torn_function u8 OS_SaveFile(const u8* path, const u8* contents);
+
 torn_function OS_App* OS_GetActiveApp(void);
 
 
