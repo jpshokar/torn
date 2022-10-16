@@ -12,6 +12,7 @@
 #include <gfx/gfx_2d.h>
 #include <utils/utils.h>
 #include <sound/sound.h>
+#include <ui/widgets.h>
 
 torn_function inline void
 TORN_Init(void)

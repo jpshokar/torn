@@ -21,6 +21,7 @@ struct SND_Sound
 {
     u8* path;
     r32 duration;
+    i32 sound_paused_at;
     
     
     ma_decoder decoder;
@@ -32,6 +33,8 @@ struct SND_Sound
 
 torn_function SND_Sound* SND_CreateSound(u8* path);
 torn_function void SND_PlaySound(SND_Sound* sound);
+torn_function void SND_ResumeSound(SND_Sound* sound);
+
 torn_function void SND_SetSoundTime(SND_Sound* sound, i32 position);
 torn_function r32 SND_GetElapsedSoundTime(SND_Sound* sound);
 torn_function r32 SND_GetSoundVolume(SND_Sound* sound);

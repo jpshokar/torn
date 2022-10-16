@@ -11,14 +11,13 @@ echo Builiding everything in %build_dir%
 echo --------------------------------
 
 set files=
-rem set files="%build_dir%/base/*.c" %files%
-REM  set files="%build_dir%/math/*.c" %files%
+set files="%build_dir%/math/*.c" %files%
 set files="%build_dir%/os/*.c" %files%
 set files="%build_dir%/os/windows/*.c" %files%
 set files="%build_dir%/utils/*.c" %files%
 set files="%build_dir%/memory/*.c" %files%
-  set files="%build_dir%/sound/*.c" %files%
-REM  set files="%build_dir%/ui/*.c" %files%
+set files="%build_dir%/sound/*.c" %files%
+set files="%build_dir%/ui/*.c" %files%
 set files="%build_dir%/*.c" %files%
 
 REM For GFX2D abstraction

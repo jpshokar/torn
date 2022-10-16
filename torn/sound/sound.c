@@ -59,11 +59,26 @@ SND_CreateSound(u8* path)
 }
 
 
-
+torn_function void
+SND_ResumeSound(SND_Sound* sound)
+{
+    sound->flag = SND_AudioPlaying;
+    SND_SetSoundTime(sound, sound->sound_paused_at);
+    if (ma_device_start(&sound->device) != MA_SUCCESS)
+    {
+        TORN_Log("SND: Miniaudio: Can't start playback device [[\"%s\"]]\n", sound->path);
+        ma_device_uninit(&sound->device);
+        ma_decoder_uninit(&sound->decoder);
+    }
+    
+    TORN_Log("SND: Miniaudio: Playing audio.\n");
+    
+}
 torn_function void
 SND_PlaySound(SND_Sound* sound)
 {
     sound->flag = SND_AudioPlaying;
+    SND_SetSoundTime(sound, 0);
     if (ma_device_start(&sound->device) != MA_SUCCESS)
     {
         TORN_Log("SND: Miniaudio: Can't start playback device [[\"%s\"]]\n", sound->path);
@@ -125,6 +140,7 @@ SND_SetSoundVolume(SND_Sound* sound, r32 volume)
 torn_function void
 SND_PauseSound(SND_Sound* sound)
 {
+    sound->sound_paused_at = SND_GetElapsedSoundTime(sound);
     sound->flag = SND_AudioPaused;
     if (ma_device_stop(&sound->device) != MA_SUCCESS)
     {

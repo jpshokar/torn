@@ -388,6 +388,31 @@ OS_GetKeyState(i8 key)
 }
 
 
+
+torn_function OS_MouseState
+OS_GetLeftMouseState(void)
+{
+    OS_MouseState state = {0};
+    OS_KeyState key_state = OS_GetKeyState(VK_LBUTTON);
+    state.clicked = key_state.pressed;
+    state.released = key_state.released;
+    return state;
+    
+}
+
+
+torn_function OS_MouseState
+OS_GetRightMouseState(void)
+{
+    OS_MouseState state = {0};
+    OS_KeyState key_state = OS_GetKeyState(VK_RBUTTON);
+    state.clicked = key_state.pressed;
+    state.released = key_state.released;
+    return state;
+    
+}
+
+
 int WINAPI 
 WinMain(HINSTANCE instance,
         HINSTANCE previous_instance,

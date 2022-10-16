@@ -1,14 +1,13 @@
 
 // Perhaps redo this? I don't know.
-
 // #error "(D3D11) This pipeline is incomplete, awaiting a major revamp or plagued by a bug, therefore you are unable to access it."
+
+
 #include "../gfx.h"
 #include <os/os.h>
 #include <base/base.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <third-party/stb/stb_image.h>
-#define HANDMADE_MATH_IMPLEMENTATION
-#include <third-party/handmade/handmademath.h>
 #define COBJMACROS
 #include <d3d11.h>
 #include <dxgi.h>
@@ -22,7 +21,7 @@
 #pragma comment (lib, "d3dcompiler.lib")
 #pragma message ( "torn: d3d11: This pipeline is extremely experimental, and may not have the correct standard behaviour. Also, this pipeline will not work." )
 #include "gfx_d3d11_handle.h"
-
+#include <math/math.h>
 //////////////////////////////////////////////////////
 //~ Global for state-based programming!
 global GFX_Renderer* g_renderer;
@@ -554,7 +553,6 @@ GFX_CreateRenderer(OS_App* app)
         
         "cbuffer cbuffer0 : register(b0) \n{"
         "\t float4x4 orthographic;\n"
-        "\t float4x4 projection;\n"
         "\t float4x4 model;\n"
         "\t float4x4 view;\n"
         "};\n"
@@ -804,10 +802,9 @@ GFX_SetClearColor(V4F color)
 typedef struct GFX_CBuffer GFX_CBuffer;
 struct GFX_CBuffer
 {
-    hmm_mat4 orthographic;
-    hmm_mat4 projection;
-    hmm_mat4 view;
-    hmm_mat4 model;
+    M_Mat4x4 orthographic;
+    M_Mat4x4 view;
+    M_Mat4x4 model;
 };
 
 torn_function void
@@ -815,23 +812,18 @@ GFX_LoadMVP(GFX_Shader* shader, GFX_Renderer* renderer)
 {
     
     
-    hmm_mat4 orthographic_view = HMM_Orthographic(0,
-                                                  renderer->window_size->w, 
-                                                  renderer->window_size->h,
-                                                  0,
-                                                  -1.f,
-                                                  1.f);
-    hmm_mat4 projection_view = HMM_Perspective(HMM_ToRadians(45.0f), // fov
-                                               renderer->window_size->w/ 
-                                               renderer->window_size->h,
-                                               -1.f,
-                                               1.0f);
-    hmm_mat4 model = HMM_Mat4d(1);
-    hmm_mat4 view = HMM_Mat4d(1);
+    M_Mat4x4 orthographic_view = M_Orthographic(0,
+                                                renderer->window_size->w, 
+                                                renderer->window_size->h,
+                                                0,
+                                                -1.f,
+                                                1.f);
     
+    
+    M_Mat4x4 model = M_Mat4D(1);
+    M_Mat4x4 view =  M_Mat4D(1);
     GFX_CBuffer cbuffer = {0};
     cbuffer.orthographic    =   orthographic_view;
-    cbuffer.projection      =   projection_view;
     cbuffer.view            =   view;
     cbuffer.model           =   model;
     

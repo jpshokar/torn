@@ -115,5 +115,19 @@ torn_function OS_KeyState OS_GetKeyState(i8 key);
 
 
 
+typedef struct OS_MouseState OS_MouseState;
+struct OS_MouseState
+{
+    b32 clicked;
+    b32 released;
+};
+
+
+torn_function OS_MouseState OS_GetLeftMouseState(void);
+torn_function OS_MouseState OS_GetRightMouseState(void);
+
+
+
+
 
 #endif

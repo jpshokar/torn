@@ -3,10 +3,10 @@
 #include <third-party/glad/glad.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <third-party/stb/stb_image.h>
-#define HANDMADE_MATH_IMPLEMENTATION 
-#include <third-party/handmade/handmademath.h>
+#include <math/math.h>
 #include <base/base.h>
 global GFX_Renderer* g_renderer;
+
 
 ///~ vertex buffers
 torn_function GFX_VertexBuffer
@@ -532,26 +532,26 @@ GFX_LoadMVP(GFX_Shader* shader, GFX_Renderer* renderer)
 {
     
     
-    hmm_mat4 orthographic_view = HMM_Orthographic(0,
-                                                  renderer->window_size->w, 
-                                                  renderer->window_size->h,
-                                                  0,
-                                                  -1.f,
-                                                  1.f);
+    M_Mat4x4 orthographic_view = M_Orthographic(0,
+                                                renderer->window_size->w, 
+                                                renderer->window_size->h,
+                                                0,
+                                                -1.f,
+                                                1.f);
     
- 
-    hmm_mat4 model = HMM_Mat4d(1);
-    hmm_mat4 view = HMM_Mat4d(1);
+    
+    M_Mat4x4 model = M_Mat4D(1);
+    M_Mat4x4 view =  M_Mat4D(1);
     TORN_Log("GFX: GLSL: Loading projection!\n");
     GFX_GLSLShaderMatrix4fv(shader, "orthographic", 1, 0,
-                            &orthographic_view.Elements[0][0]);
- 
+                            &orthographic_view.elements[0][0]);
+    
     TORN_Log("GFX: GLSL: Loading model!\n");
     GFX_GLSLShaderMatrix4fv(shader, "model", 1, 0,
-                            &model.Elements[0][0]);
+                            &model.elements[0][0]);
     TORN_Log("GFX: GLSL: Loading view!\n");
     GFX_GLSLShaderMatrix4fv(shader, "view", 1, 0,
-                            &view.Elements[0][0]);
+                            &view.elements[0][0]);
     
 }
 

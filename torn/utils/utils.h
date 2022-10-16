@@ -20,6 +20,8 @@ U_ClockStart(U_Clock* clock, OS_App* app);
 torn_function r32
 U_ClockGetElapsedTime(U_Clock* clock, OS_App* app);
 
+torn_function i32
+U_GetTextLength(u8* text);
 
 #endif
 
