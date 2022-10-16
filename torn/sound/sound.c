@@ -119,7 +119,7 @@ SND_SetSoundVolume(SND_Sound* sound, r32 volume)
         TORN_Log("SND: Miniaudio: Could not set audio volume.\n");
     }
     
-    TORN_Log("SND: Miniaudio: Set sound volume to %i.\n",volume);
+    TORN_Log("SND: Miniaudio: Set sound volume to %f.\n",volume);
 }
 
 torn_function void
