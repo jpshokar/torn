@@ -539,18 +539,13 @@ GFX_LoadMVP(GFX_Shader* shader, GFX_Renderer* renderer)
                                                   -1.f,
                                                   1.f);
     
-    hmm_mat4 projection_view = HMM_Perspective(HMM_ToRadians(45.0f), // fov
-                                               renderer->window_size->w/ 
-                                               renderer->window_size->h,
-                                               -1.f,
-                                               1.0f);
+ 
     hmm_mat4 model = HMM_Mat4d(1);
     hmm_mat4 view = HMM_Mat4d(1);
     TORN_Log("GFX: GLSL: Loading projection!\n");
     GFX_GLSLShaderMatrix4fv(shader, "orthographic", 1, 0,
                             &orthographic_view.Elements[0][0]);
-    GFX_GLSLShaderMatrix4fv(shader, "projection", 1, 0,
-                            &projection_view.Elements[0][0]);
+ 
     TORN_Log("GFX: GLSL: Loading model!\n");
     GFX_GLSLShaderMatrix4fv(shader, "model", 1, 0,
                             &model.Elements[0][0]);
@@ -572,8 +567,11 @@ GFX_Resize(V2I pos, V2I size)
 {
     if (g_renderer != 0) 
     {
-        GFX_LoadMVP(&g_renderer->default_shader, g_renderer);
-        glViewport(pos.x, pos.y, size.w, size.h);
+        if ( (size.w >= 0) || (size.h >= 0))
+        {
+            GFX_LoadMVP(&g_renderer->default_shader, g_renderer);
+            glViewport(pos.x, pos.y, size.w, size.h);
+        }
     }
     
 }
