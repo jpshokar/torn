@@ -30,7 +30,7 @@ SND_CreateSound(u8* path)
     if (sound->result != MA_SUCCESS)
     {
         TORN_Log("SND: Miniaudio: Failed to decode file.\n");
-        return sound;
+        return 0;
     }
     
     
@@ -46,7 +46,7 @@ SND_CreateSound(u8* path)
     {
         TORN_Log("SND: Miniaudio: Failed to open playback device.\n");
         ma_decoder_uninit(&sound->decoder);
-        return sound;
+        return 0;
     }
     
     ma_uint64 length;
