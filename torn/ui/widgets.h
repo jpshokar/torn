@@ -5,7 +5,7 @@
 #include <gfx/gfx.h>
 
 
-typedef union UI_Signal UI_Signal;
+typedef struct UI_Signal UI_Signal;
 struct UI_Signal
 {
     b32 clicked;
