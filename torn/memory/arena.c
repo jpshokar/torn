@@ -42,21 +42,29 @@ MEM_ArenaAlloc(MEM_Arena* arena, i32 size)
         TORN_Log("MEMORY: Out of memory (%i bytes used) Resizing to accomodate this change!\n", arena->size);
         ///~ out of memory, so we the arena  prev_size( prev_size + size ) * 2. 
         ///~ note: The pointed address will be the same, even when resized.
-        i32 old_size = arena->size;
-        arena->size = (arena->size) * 2;
-        
-        u8* new_address_space = OS_Allocate(arena->size);
-        
-        for(i32 i = 0;i<arena->end;i++)
-        {
-            new_address_space[i] = arena->address_space[i];
-        }
-        OS_Free(arena->address_space, old_size);
-        
-        arena->address_space = new_address_space;
-        TORN_Log("MEMORY: Resized to %i bytes\n", arena->size);
+        MEM_ArenaReAlloc(arena, arena->size * 2);
         return MEM_ArenaAlloc(arena, size);
     }
+    
+}
+
+torn_function void
+MEM_ArenaReAlloc(MEM_Arena* arena, i32 size)
+{
+    
+    i32 old_size = arena->size;
+    arena->size = size;
+    
+    u8* new_address_space = OS_Allocate(arena->size);
+    
+    for(i32 i = 0;i<arena->end;i++)
+    {
+        new_address_space[i] = arena->address_space[i];
+    }
+    OS_Free(arena->address_space, old_size);
+    
+    arena->address_space = new_address_space;
+    TORN_Log("MEMORY: Resized to %i bytes\n", arena->size);
     
 }
 torn_function void 

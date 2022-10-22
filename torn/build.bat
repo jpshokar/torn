@@ -18,6 +18,7 @@ set files="%build_dir%/utils/*.c" %files%
 set files="%build_dir%/memory/*.c" %files%
 set files="%build_dir%/sound/*.c" %files%
 set files="%build_dir%/ui/*.c" %files%
+set files="%build_dir%/rs/*.c" %files%
 set files="%build_dir%/*.c" %files%
 
 REM For GFX2D abstraction

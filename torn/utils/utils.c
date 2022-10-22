@@ -25,3 +25,19 @@ U_GetTextLength(u8* text)
     while (text[length++] != '\0');
     return length;
 }
+
+torn_function i32
+U_Compare(const u8* compare , const u8* source)
+{
+    i32 success = 1;
+    while (*compare != '\0')
+    {
+        if (*compare != *source)
+            return 0;
+        success &= (*compare && *source);
+        *compare++;
+        *source++;
+    }
+    return success;
+    
+}

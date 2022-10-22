@@ -6,7 +6,7 @@
 #include <math/math.h>
 #include <base/base.h>
 global GFX_Renderer* g_renderer;
-
+#include <utils/utils.h>
 
 ///~ vertex buffers
 torn_function GFX_VertexBuffer
@@ -776,21 +776,6 @@ GFX_LoadDataTexture2D(u8* data, V2I size, GFX_ColorFormat format)
     return texture;
 }
 
-internal i32 
-HELPER_Compare(const u8* compare , const u8* source)
-{
-    i32 success = 1;
-    while (*compare != '\0')
-    {
-        if (*compare != *source)
-            return 0;
-        success &= (*compare && *source);
-        *compare++;
-        *source++;
-    }
-    return success;
-    
-}
 torn_function GFX_Texture2D
 GFX_LoadTexture2D(u8* path)
 {
@@ -823,9 +808,9 @@ GFX_LoadTexture2D(u8* path)
     // assume jpg|jpeg if all queries did not succeed.
     GFX_ColorFormat format = GFX_Format_RGB;
     
-    if (HELPER_Compare(ext, "jpg") || HELPER_Compare(ext, "jpeg")) { format = GFX_Format_RGB; }
-    if (HELPER_Compare(ext, "png")) { format = GFX_Format_RGBA; }
-    if (HELPER_Compare(ext, "bmp")) { format = GFX_Format_BGR; }
+    if (U_Compare(ext, "jpg") || U_Compare(ext, "jpeg")) { format = GFX_Format_RGB; }
+    if (U_Compare(ext, "png")) { format = GFX_Format_RGBA; }
+    if (U_Compare(ext, "bmp")) { format = GFX_Format_BGR; }
     texture = GFX_LoadDataTexture2D(data, texture.size, format);
     GFX_PushTexture(&g_renderer->default_texture);
     return texture;

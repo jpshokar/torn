@@ -23,5 +23,10 @@ U_ClockGetElapsedTime(U_Clock* clock, OS_App* app);
 torn_function i32
 U_GetTextLength(u8* text);
 
+
+
+i32 
+U_Compare(const u8* compare , const u8* source);
+
 #endif
 

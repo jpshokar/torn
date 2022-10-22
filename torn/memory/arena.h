@@ -15,8 +15,8 @@ struct MEM_Arena
 
 torn_function MEM_Arena MEM_ArenaInit(i32 size);
 torn_function void* MEM_ArenaAlloc(MEM_Arena* arena, i32 size);
+torn_function void MEM_ArenaReAlloc(MEM_Arena* arena, i32 size);
 torn_function void MEM_ArenaFree(MEM_Arena* arena);
-
 
 
 torn_function i32 MEM_Init(void);
