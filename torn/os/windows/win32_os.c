@@ -324,7 +324,7 @@ OS_ReadFile(const u8* path)
     TORN_Log("OS: Win32: Attempting to read file with %i bytes\n", bytes);
     char* read_buffer = MEM_ArenaAlloc(MEM_GetDefaultArena(), bytes);
     DWORD bytes_read = 0;
-    if (ReadFile(file, read_buffer, bytes-1,  &bytes_read, 0))
+    if (ReadFile(file, read_buffer, bytes,  &bytes_read, 0))
     {
         TORN_Log("OS: Win32: Finished reading %s!\n", path);
         read_buffer[bytes_read+1] = '\0';
