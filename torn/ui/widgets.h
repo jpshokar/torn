@@ -1,5 +1,6 @@
 #ifndef WIDGETS_H
 #define WIDGETS_H
+
 #include <base/base.h>
 #include <gfx/gfx_2d.h>
 #include <gfx/gfx.h>
@@ -9,7 +10,6 @@ typedef union UI_Signal UI_Signal;
 union UI_Signal
 {
     b32 clicked;
-    
 };
 
 

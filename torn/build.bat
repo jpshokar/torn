@@ -16,10 +16,12 @@ set files="%build_dir%/os/*.c" %files%
 set files="%build_dir%/os/windows/*.c" %files%
 set files="%build_dir%/utils/*.c" %files%
 set files="%build_dir%/memory/*.c" %files%
+set files="%build_dir%/base/*.c" %files%
+
 set files="%build_dir%/sound/*.c" %files%
 set files="%build_dir%/ui/*.c" %files%
 set files="%build_dir%/rs/*.c" %files%
-set files="%build_dir%/*.c" %files%
+set files="%build_dir%/*.cpp" %files%
 
 REM For GFX2D abstraction
 set files="%build_dir%/gfx/2d/*.c" %files%
