@@ -9,6 +9,9 @@ UI_CreateButton(GFX_Font font, u8* text, V2F size, V2F pos)
     
     button.objects.button = GFX_CreateRect(size,pos);
     button.objects.font   = font;
+    button.pos = pos;
+    button.size = size;
+    
     button.objects.text   = GFX_CreateText(text, 
                                            
                                            v2(
@@ -92,7 +95,6 @@ UI_UpdateButton(UI_Button* button, OS_App* app)
     }
     
 }
-
 torn_function void
 UI_SetButtonPos(UI_Button* button, V2F pos)
 {
@@ -117,7 +119,5 @@ void UI_DrawButton(UI_Button* button, GFX_Renderer* renderer)
 torn_function UI_Signal
 UI_GetButtonSignal(UI_Button* button, OS_App* app)
 {
-    
     return button->signal;
-    
 }
