@@ -21,12 +21,16 @@ struct UI_Button
         GFX_Text text;
         GFX_Font font;
     } objects;
+    
+    V2F pos;
+    V2F size;
     UI_Signal signal;
     u8* text;
 };
 
 
 torn_function UI_Button UI_CreateButton(GFX_Font font, u8* text, V2F size, V2F pos);
+torn_function void UI_SetButtonPos(UI_Button* button, V2F pos);
 torn_function UI_Signal UI_GetButtonSignal(UI_Button* button, OS_App* app);
 torn_function void UI_UpdateButton(UI_Button* button, OS_App* app);
 torn_function void      UI_DrawButton(UI_Button* button, GFX_Renderer* renderer);
