@@ -24,5 +24,17 @@
 #endif
 
 
+// UI
+#define COLOR_G1_SELECTED  v4(0,0,0,255)
+#define COLOR_G2_SELECTED  v4(10,10,10,255)
+
+#define COLOR_G1_PRESSED   v4(25,25,25,255)
+#define COLOR_G2_PRESSED   v4(25,25,25,255)
+
+#define COLOR_G1_INACTIVE  v4(10,10,10,255)
+#define COLOR_G2_INACTIVE  v4(0,0,0,255)
+
+
+
 
 #endif
