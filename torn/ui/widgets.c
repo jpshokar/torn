@@ -92,6 +92,20 @@ UI_UpdateButton(UI_Button* button, OS_App* app)
     }
     
 }
+
+torn_function void
+UI_SetButtonPos(UI_Button* button, V2F pos)
+{
+    button->pos = pos;
+    
+    V2F position = 
+        v2((button->pos.x + ((button->size.w - (U_GetTextLength(button->text) * button->objects.font.size)/2)/ 2)) + (button->objects.font.size/2), 
+           (button->pos.y + (button->size.h / 2)) + (button->objects.font.size/4));
+    
+    button->objects.button.pos = v3(pos.x, pos.y,0);
+    button->objects.text.pos = v2(position.x, position.y);
+    
+}
 torn_function 
 void UI_DrawButton(UI_Button* button, GFX_Renderer* renderer)
 {
