@@ -45,8 +45,8 @@ UI_UpdateButton(UI_Button* button, OS_App* app)
     {
         
         {
-            V4F g1 = v4(125,125,125,255);
-            V4F g2 = v4(0,0,0,255);
+            V4F g1 =  COLOR_G1_SELECTED ;
+            V4F g2 =  COLOR_G2_SELECTED ;
             
             
             button->objects.button.color.top_left = g1;
@@ -60,8 +60,8 @@ UI_UpdateButton(UI_Button* button, OS_App* app)
         if (OS_GetLeftMouseState().clicked)
         {
             {
-                V4F g1 = v4(155,155,155,255);
-                V4F g2 = v4(30,30,30,255);
+                V4F g1 = COLOR_G1_PRESSED ;
+                V4F g2 = COLOR_G2_PRESSED ;
                 
                 
                 button->objects.button.color.top_left = g1;
@@ -79,8 +79,8 @@ UI_UpdateButton(UI_Button* button, OS_App* app)
         
     } else {
         {
-            V4F g1 = v4(96,96,96,255);
-            V4F g2 = v4(0,0,0,255);
+            V4F g1 = COLOR_G1_INACTIVE;
+            V4F g2 = COLOR_G2_INACTIVE;
             
             
             button->objects.button.color.top_left = g1;
