@@ -95,7 +95,6 @@ torn_function void GFX_SetTextureUnit(i32 unit);
 * GLSL
 *
 */ 
-#ifdef BACKEND_OPENGL
 torn_function void GFX_GLSLShader1f(GFX_Shader* shader, const u8* location,  r32 v0);
 torn_function void GFX_GLSLShader2f(GFX_Shader* shader, const u8* location,  r32 v0, r32 v1);
 torn_function void GFX_GLSLShader3f(GFX_Shader* shader, const u8* location,  r32 v0, r32 v1, r32 v2);
@@ -130,11 +129,7 @@ torn_function void GFX_GLSLShaderMatrix4x2fv(GFX_Shader* shader, const u8* locat
 torn_function void GFX_GLSLShaderMatrix3x4fv(GFX_Shader* shader, const u8* location, u32 count,b32 transpose,const r32 *value);
 torn_function void GFX_GLSLShaderMatrix4x3fv(GFX_Shader* shader, const u8* location, u32 count,b32 transpose,const r32 *value);
 
-torn_function void GFX_ShaderLoadMeta(GFX_Shader* shader, GFX_Renderer* renderer);
 
-torn_function void GFX_ConfigureShader(GFX_Shader* shader, GFX_Renderer* renderer);
-
-#endif
 
 #ifdef BACKEND_D3D11
 /*
@@ -228,6 +223,8 @@ torn_function void GFX_Resize(V2I pos, V2I size);
 torn_function void GFX_SetClearColor(V4F color);
 torn_function void GFX_LoadMVP(GFX_Shader* shader, GFX_Renderer* renderer);
 
+torn_function void GFX_ShaderLoadMeta(GFX_Shader* shader, GFX_Renderer* renderer);
+torn_function void GFX_ConfigureShader(GFX_Shader* shader, GFX_Renderer* renderer);
 
 
 //~ IM-Based Rendering
@@ -253,6 +250,35 @@ torn_function void GFX_EndDraw(GFX_Primitive primitive);
 torn_function void GFX_EndDrawIndexed(i32 indices, GFX_Primitive primitive);
 
 
+
+//~ Blending
+//////////////////////////////////////////////////////
+
+typedef enum GFX_BlendFactor GFX_BlendFactor;
+enum GFX_BlendFactor
+{
+    GFX_ZERO = 0,
+    GFX_ONE = 1,
+    GFX_SRC_COLOR = 2,
+    GFX_ONE_MINUS_SRC_COLOR = 3,
+    GFX_DST_COLOR = 4,
+    GFX_ONE_MINUS_DST_COLOR = 5,
+    GFX_SRC_ALPHA =6,
+    GFX_ONE_MINUS_SRC_ALPHA = 7,
+    GFX_DST_ALPHA = 8,
+    GFX_ONE_MINUS_DST_ALPHA = 9,
+    GFX_CONSTANT_COLOR = 10,
+    GFX_ONE_MINUS_CONSTANT_COLOR = 11, 
+    GFX_CONSTANT_ALPHA = 12,
+    GFX_ONE_MINUS_CONSTANT_ALPHA= 13,
+    GFX_SRC_ALPHA_SATURATE = 14,
+    GFX_SRC1_COLOR = 15,
+    GFX_ONE_MINUS_SRC1_COLOR = 16,
+    GFX_SRC1_ALPHA = 17,
+    GFX_ONE_MINUS_SRC1_ALPHA = 18 
+};
+
+torn_function void GFX_Blend(GFX_BlendFactor blend_factor1, GFX_BlendFactor blend_factor2);
 //~ Framebuffers
 //////////////////////////////////////////////////////
 typedef struct GFX_Framebuffer GFX_Framebuffer;

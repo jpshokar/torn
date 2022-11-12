@@ -11,7 +11,8 @@ typedef enum OS_AppStyle OS_AppStyle;
 enum OS_AppStyle
 {
     OS_AppStyleVisible = 1,
-    OS_AppStyleMinimize = 2,
+    OS_AppStyleMinimize = 2
+        ,
     OS_AppStyleViewportResize = 3,
     OS_AppStyleMaximize = 4,
     OS_AppStyleDefault = (OS_AppStyleMaximize | OS_AppStyleViewportResize| OS_AppStyleMinimize | OS_AppStyleVisible),

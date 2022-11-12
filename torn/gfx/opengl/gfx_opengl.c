@@ -158,8 +158,10 @@ GFX_ShaderFailed(GFX_Shader shader)
 internal i32
 GFX_GetShaderLocation(GFX_Shader* shader, const u8* location)
 {
-    GFX_PushShader(*shader);
-    return glGetUniformLocation(shader->program, location);
+    glUseProgram(shader->program);
+    i32 shader_location =  glGetUniformLocation(shader->program, location);
+    TORN_Log("GLSL: location <%s> => %i\n", location, shader_location);
+    return shader_location;
     
 }
 
@@ -168,7 +170,8 @@ GFX_GetShaderLocation(GFX_Shader* shader, const u8* location)
 torn_function void
 GFX_GLSLShader1f(GFX_Shader* shader, const u8* location, r32 v0)
 {
-    glUniform1f(GFX_GetShaderLocation(shader,location), v0);
+    r32 shader_location = GFX_GetShaderLocation(shader,location);
+    glUniform1f(shader_location, v0);
 }
 torn_function void
 GFX_GLSLShader2f(GFX_Shader* shader, const u8* location, r32 v0, r32 v1)
@@ -516,6 +519,7 @@ GFX_CreateRenderer(OS_App* app)
     GFX_ShaderLoadMeta(&renderer->default_shader, renderer);
     TORN_Log("GFX: OpenGL: Enabling blending!\n");
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     glEnable(GL_BLEND);
     
     TORN_Log("GFX: OpenGL: Loaded OpenGL Renderer\n");
@@ -889,6 +893,101 @@ GFX_CreateFramebuffer(GFX_Renderer* renderer, GFX_ColorFormat color_format)
     
 }
 
+//~ Blending
+///////////////////////////////////////////////////
+
+GLenum 
+GFX_GLBlendFactor(GFX_BlendFactor factor)
+{
+    switch(factor)
+    {
+        case 0: {
+            return GL_ZERO; 
+        } break;
+        
+        case 1: {
+            return GL_ONE;
+            
+        } break;
+        
+        case 2: {
+            return GL_SRC_COLOR;
+        } break;
+        
+        case  3: {
+            return GL_ONE_MINUS_SRC_COLOR;
+        } break;
+        
+        case 4: {
+            return GL_DST_COLOR;
+        } break;
+        
+        case 5 : {
+            return GL_ONE_MINUS_DST_COLOR;
+        } break;
+        
+        case 6: {
+            return GL_SRC_ALPHA;
+        } break;
+        
+        case 7: {
+            return GL_ONE_MINUS_SRC_ALPHA;
+        } break;
+        
+        case 8 : {
+            return GL_DST_ALPHA;
+        } break;
+        
+        case 9: {
+            return GL_ONE_MINUS_DST_ALPHA;
+        } break;
+        
+        case 10: {
+            return GL_CONSTANT_COLOR;
+        } break;
+        
+        case 11: {
+            return GL_ONE_MINUS_CONSTANT_COLOR;
+        } break;
+        
+        case 12: {
+            return GL_CONSTANT_ALPHA;
+        } break;
+        
+        case 13: {
+            return GL_ONE_MINUS_CONSTANT_COLOR;
+        } break;
+        
+        case 14: {
+            return GL_SRC_ALPHA_SATURATE;
+        } break;
+        
+        case 15: {
+            return GL_SRC1_COLOR;
+        } break;
+        
+        case 16: {
+            return GL_ONE_MINUS_SRC1_COLOR;
+        } break;
+        
+        case 17: {
+            return GL_SRC1_ALPHA;
+        } break;
+        
+        case 18: {
+            return GL_ONE_MINUS_SRC1_ALPHA;
+        } break;
+    };
+    return 0;
+}
+
+torn_function void
+GFX_Blend(GFX_BlendFactor blend_factor1, GFX_BlendFactor blend_factor2)
+{
+    glBlendFunc(GFX_GLBlendFactor(blend_factor1), GFX_GLBlendFactor(blend_factor2));
+}
+
+
 
 //~ misc
 torn_function const i8*
@@ -915,3 +1014,4 @@ GFX_GetBackend(void)
 {
     return "OpenGL";
 }
+

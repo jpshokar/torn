@@ -10,6 +10,7 @@ typedef union UI_Signal UI_Signal;
 union UI_Signal
 {
     b32 clicked;
+    
 };
 
 

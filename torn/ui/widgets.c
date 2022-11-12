@@ -55,6 +55,7 @@ UI_UpdateButton(UI_Button* button, OS_App* app)
             
             button->objects.button.color.bottom_left = g2;
             button->objects.button.color.bottom_right = g2;
+            
         }
         
         if (OS_GetLeftMouseState().clicked)
@@ -66,7 +67,6 @@ UI_UpdateButton(UI_Button* button, OS_App* app)
                 
                 button->objects.button.color.top_left = g1;
                 button->objects.button.color.top_right = g1;
-                
                 
                 button->objects.button.color.bottom_left = g2;
                 button->objects.button.color.bottom_right = g2;

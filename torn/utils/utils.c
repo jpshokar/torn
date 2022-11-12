@@ -41,3 +41,29 @@ U_Compare(const u8* compare , const u8* source)
     return success;
     
 }
+
+torn_function r32 
+U_Lerp(r32 start, r32 end, r32 time)
+{
+    return start + time * (end - start);
+}
+
+
+
+torn_function r32 
+U_Min(r32 x, r32 y)
+{
+    return x > y ? y : x;
+}
+
+torn_function r32 
+U_Max(r32 x, r32 y)
+{
+    return x > y ? x : y;
+}
+
+torn_function r32 
+U_Clamp(r32 value, r32 max, r32 min)
+{
+    return U_Min( U_Max(value, min), max);
+}

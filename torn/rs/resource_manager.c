@@ -1,7 +1,7 @@
 #include "resource_manager.h"
 #include <utils/utils.h>
 
-
+// probably bug-prone: fix-me!
 torn_function RS_ResourceManager RS_CreateResourceManager()
 {
     RS_ResourceManager resource_manager = {0};
@@ -61,6 +61,7 @@ torn_function void* RS_GetElement(RS_ResourceManager* resource_manager, u8* key)
     {
         if (U_Compare(resource_manager->resources[i].key, key)) { return resource_manager->resources[i].value; }
     }
+    TORN_Error(key, "Resource Manager: Key Not Found");
     return 0;
     
 }

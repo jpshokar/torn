@@ -529,7 +529,7 @@ GFX_CreateRenderer(OS_App* app)
     swapchain_desc.BufferCount              = 2;
     
     GFXD3D11_Validate(D3D11CreateDeviceAndSwapChain(0,
-                                                    D3D_DRIVER_TYPE_WARP,
+                                                    D3D_DRIVER_TYPE_HARDWARE,
                                                     0,
                                                     0,
                                                     0,

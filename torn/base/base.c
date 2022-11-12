@@ -22,6 +22,7 @@ torn_function V2F
 V2F_Construct(r32 x, r32 y)
 {
     V2F v2f;
+
     v2f.x = x;
     v2f.y = y;
     return v2f;
