@@ -76,7 +76,7 @@ UI_UpdateConsole(UI_Console* console, GFX_Renderer* renderer, OS_App* app)
                 console->scrollbar.offset = 
                     0 + (100 * (console->line.text_used) - 0) * ((OS_GetMousePosition(app).y - console->scrollbar.base.pos.y) /
                                                                  console->scrollbar.base.size.y);
-                printf("%i\n", console->scrollbar.offset);
+ 
             }
         }
         if (console->scrollbar.clicked)
